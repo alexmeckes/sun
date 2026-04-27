@@ -18,8 +18,8 @@ const DAY_STRIDE = 14;
 
 ctx.onmessage = (e: MessageEvent<SimInput>) => {
   const result = simulate(e.data);
-  const transfers: ArrayBuffer[] = [result.hoursPerDay.buffer];
-  for (const m of result.monthly) transfers.push(m.hoursPerDay.buffer);
+  const transfers: Transferable[] = [result.hoursPerDay.buffer as ArrayBuffer];
+  for (const m of result.monthly) transfers.push(m.hoursPerDay.buffer as ArrayBuffer);
   ctx.postMessage(result, transfers);
 };
 
