@@ -1,73 +1,40 @@
-# React + TypeScript + Vite
+# Sun
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web app that simulates sun exposure across a yard over a growing season. Type an address, place obstacles (buildings auto-load from OpenStreetMap; tap to add trees), drop plant markers for blueberries / grapes / tomatoes / etc., and get a per-spot verdict on whether the sun-hours support that crop — including a monthly breakdown for diagnosing fruiting timing.
 
-Currently, two official plugins are available:
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Falexmeckes%2Fsun)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Run locally
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Then open http://localhost:5173.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Deploy on Vercel
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Click the **Deploy with Vercel** button above (or visit [vercel.com/new](https://vercel.com/new) and import this repo).
+2. No environment variables are required.
+3. Vercel auto-detects Vite; build command is `npm run build`, output directory is `dist`.
+
+The included `vercel.json` pins the framework and adds long-cache headers for hashed assets.
+
+## How it works
+
+- **Address geocoding** — [Nominatim](https://nominatim.org) (OpenStreetMap)
+- **Satellite imagery** — [Esri World Imagery](https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9)
+- **Building footprints** — [OpenStreetMap](https://www.openstreetmap.org/) via the Overpass API
+- **Sun position** — [SunCalc](https://github.com/mourner/suncalc)
+- **Simulation** — Web Worker projects shadows from buildings + tree canopies every 30 minutes on representative days across the growing season; per-cell sun-hours are bucketed by month so plant markers can show seasonal variation, not just the season average.
+
+## Caveats
+
+- OSM building heights default to one story (3 m) when missing — adjust tall buildings manually by clicking them.
+- Tree canopies are treated as opaque circles; deciduous leaf-out timing isn't modeled.
+- Ground is assumed flat.
+
+## License
+
+MIT
