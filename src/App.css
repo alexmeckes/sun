@@ -821,3 +821,164 @@ body,
 .chart-legend .dot.ideal { background: #3fb950; }
 .chart-legend .dot.min { background: #d29922; }
 
+/* ---------------------------------------------------------------- */
+/* Mobile layout                                                    */
+/* ---------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .app {
+    /* Use dynamic viewport height so iOS Safari URL bar doesn't clip us. */
+    height: 100dvh;
+  }
+
+  /* Top bar wraps; address input becomes full-width. */
+  .topbar {
+    flex-wrap: wrap;
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .address-bar {
+    flex: 1 1 100%;
+  }
+
+  .address-bar input {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    /* iOS zooms inputs <16px on focus — pin to 16 to prevent it. */
+    font-size: 16px;
+  }
+
+  .addr-display {
+    flex: 1 1 100%;
+    font-size: 11px;
+    margin-top: 2px;
+  }
+
+  /* Stack map on top, sidebar as a bottom panel. */
+  .body {
+    flex-direction: column;
+  }
+
+  .map-wrap {
+    flex: 0 0 58%;
+    min-height: 50%;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex: 1 1 auto;
+    height: auto;
+    border-left: none;
+    border-top: 1px solid #30363d;
+    padding: 12px 14px;
+    /* Add safe-area padding for phones with home indicator. */
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  /* Compact sidebar spacing */
+  .sidebar h2 { margin-bottom: 8px; }
+  .sidebar h3 { margin: 12px 0 6px; font-size: 12px; }
+  .sidebar section { margin-bottom: 12px; }
+
+  /* Sun compass: shrink and pin to top-left of map. */
+  .corner-tl { top: 8px; left: 8px; }
+  .sun-compass {
+    transform: scale(0.78);
+    transform-origin: top left;
+  }
+
+  .corner-tr { top: 8px; right: 8px; }
+  .sim-pill { font-size: 11px; padding: 4px 9px; }
+
+  /* Time scrubber sits at bottom of map area (above the sidebar panel). */
+  .corner-bottom {
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+  }
+
+  .scrubber {
+    width: 100%;
+    max-width: none;
+    padding: 8px 10px;
+  }
+
+  .scrubber-row {
+    gap: 8px;
+  }
+
+  /* Welcome card: full-bleed on phones */
+  .welcome {
+    padding: 4vh 16px 16px;
+    align-items: flex-start;
+  }
+
+  .welcome-card {
+    padding: 20px 18px;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .welcome-card h1 { font-size: 18px; }
+  .welcome-card p { font-size: 13px; }
+  .welcome-card li { font-size: 12px; }
+
+  /* Tighter species grid */
+  .species-btn {
+    font-size: 11px !important;
+    padding: 7px 4px !important;
+  }
+  .species-emoji { font-size: 20px; }
+
+  /* Bigger touch targets for draggable corner handles */
+  .corner-handle {
+    width: 26px !important;
+    height: 26px !important;
+    margin-left: -13px !important;
+    margin-top: -13px !important;
+  }
+
+  /* Slightly bigger tree centers for tappability */
+  .tree-marker {
+    width: 16px !important;
+    height: 16px !important;
+    margin-left: -8px !important;
+    margin-top: -8px !important;
+  }
+
+  /* Constrain Leaflet popups so they don't overflow the viewport */
+  .leaflet-popup-content-wrapper {
+    max-width: calc(100vw - 40px);
+  }
+  .leaflet-popup-content {
+    max-width: calc(100vw - 60px);
+    margin: 10px 12px;
+  }
+
+  .plant-popup {
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* Monthly chart fits within popup */
+  .monthly-chart svg {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+}
+
+/* Landscape phone: revert to side-by-side, but with a slim sidebar. */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+  .body { flex-direction: row; }
+  .map-wrap { flex: 1; }
+  .sidebar {
+    width: 260px;
+    flex: 0 0 260px;
+    border-left: 1px solid #30363d;
+    border-top: none;
+  }
+}
+
